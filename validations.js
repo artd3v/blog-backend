@@ -14,8 +14,8 @@ export const registerValidation = [
 ];
 
 export const postCreateValidation = [
-    body('title', 'Неверный формат почты').isString({ min: 3 }),
-    body('text', 'Пароль должен содержать минимум 6 символов').isString({ min: 15 }),
-    body('tags', 'Укажите Ваше имя').optional().isArray(),
-    body('imageUrl', 'Неправильный URL адрес').optional().isString(),
+    body('title', 'Введите заголовок статьи').isLength({ min: 3 }).isString(),
+    body('text', 'Введите текст статьи').isLength({ min: 5 }).isString(),
+    body('tags', 'Неверный формат тэгов(укажите массив)').optional().isString(),
+    body('imageUrl', 'Неверная ссылка на изображение').optional().isString(),
 ];

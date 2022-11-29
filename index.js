@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 import { registerValidation, loginValidation} from './validations.js';
 import checkAuth from './utils/checkAuth.js';
@@ -9,9 +10,9 @@ import checkAuth from './utils/checkAuth.js';
 import * as UserController from './controllers/UserController.js';
 // import * as PostController from './controllers/PostController.js';
 
-
 mongoose
-    .connect('mongodb+srv://Admin:r2d2y3b3f4@myclustertest.j8phnld.mongodb.net/blog?retryWrites=true&w=majority')
+    .connect(process.env.DATA_BASE)
+    // .connect('mongodb+srv://Admin:r2d2y3b3f4@myclustertest.j8phnld.mongodb.net/blog?retryWrites=true&w=majority')
     .then(() => console.log('DB work'))
     .catch((err) => console.log('DB error', err));
 

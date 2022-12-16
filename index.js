@@ -1,5 +1,6 @@
 import express from 'express';
 import multer from 'multer';
+import cors from 'cors';
 
 import mongoose from 'mongoose';
 
@@ -15,11 +16,11 @@ import { UserController, PostController } from './controllers/index.js';
 
 mongoose
     .connect(process.env.DATA_BASE)
-    // .connect('mongodb+srv://Admin:r2d2y3b3f4@myclustertest.j8phnld.mongodb.net/blog?retryWrites=true&w=majority')
     .then(() => console.log('DB work'))
     .catch((err) => console.log('DB error', err));
 
 const app = express();
+
 
 const storage = multer.diskStorage({
     destination: (_, __, cb) => {
@@ -32,7 +33,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+
 app.use(express.json());
+app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
 app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login);

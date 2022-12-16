@@ -35,7 +35,6 @@ export const getOne = async (req, res) => {
                 }
 
                 if (!doc) {
-                    console.log(err);
                     return res.status(404).json({
                         message: 'Статья не найдена',
                     });
@@ -48,6 +47,27 @@ export const getOne = async (req, res) => {
         console.log(err);
         res.status(500).json({
             message: 'Не удалось получить статьи',
+        });
+    }
+};
+
+export const create = async (req, res) => {
+    try {
+        const doc = new PostModel({
+            title: req.body.title,
+            text: req.body.title,
+            imageUrl: req.body.imageUrl,
+            tags: req.body.tags,
+            user: req.userId,
+        });
+
+        const post = await doc.save();
+
+        res.json(post);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Не удалось создать статью',
         });
     }
 };
@@ -84,27 +104,6 @@ export const remove = async (req, res) => {
         console.log(err);
         res.status(500).json({
             message: 'Не удалось получить статью',
-        });
-    }
-};
-
-export const create = async (req, res) => {
-    try {
-        const doc = new PostModel({
-            title: req.body.title,
-            text: req.body.title,
-            imageUrl: req.body.imageUrl,
-            tags: req.body.tags,
-            user: req.userId,
-        });
-
-        const post = await doc.save();
-
-        res.json(post);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            message: 'Не удалось создать статью',
         });
     }
 };

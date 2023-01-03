@@ -22,7 +22,7 @@ export const register = async (req, res) => {
             {
             _id: user._id,
             },
-            'secretkey123',
+            process.env.SECRET_KEY,
             {
                 expiresIn: '30d',
             },
@@ -64,7 +64,7 @@ export const login = async(req, res) => {
             {
             _id: user._id,
             },
-            'secretkey123',
+            process.env.SECRET_KEY,
             {
                 expiresIn: '30d',
             },

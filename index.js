@@ -1,11 +1,13 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
+import fs from 'fs';
 import multer from 'multer';
 import cors from 'cors';
 
 import mongoose from 'mongoose';
 
-import * as dotenv from 'dotenv';
-dotenv.config();
 
 import { registerValidation, loginValidation, postCreateValidation} from './validations.js';
 
@@ -24,6 +26,9 @@ const app = express();
 
 const storage = multer.diskStorage({
     destination: (_, __, cb) => {
+        if (!fs.existsSync('uploads')) {
+            fs.mkdirSync('uploads');
+        }
         cb(null, 'uploads');
     },
     filename: (_, file, cb) => {
@@ -50,6 +55,7 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
 
 
 app.get('/tags', PostController.getLastTags);
+
 app.get('/posts', PostController.getAll);
 app.get('/posts/tags', PostController.getLastTags);
 app.get('/posts/:id', PostController.getOne);
@@ -63,7 +69,7 @@ app.patch(
     PostController.update,
     );
 
-app.listen(4444, (err) => {
+app.listen(process.env.PORT, (err) => {
     if(err) {
         return console.log(err);
     }

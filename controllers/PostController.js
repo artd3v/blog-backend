@@ -4,7 +4,10 @@ export const getLastTags = async (req, res) => {
     try{
         const posts = await PostModel.find().limit(5).exec();
 
-        const tags = posts.map((obj) => obj.tags).flat().slice(0, 5);
+        const tags = posts
+            .map((obj) => obj.tags)
+            .flat()
+            .slice(0, 5);
 
         res.json(tags)
     } catch (err) {
@@ -66,27 +69,6 @@ export const getOne = async (req, res) => {
     }
 };
 
-export const create = async (req, res) => {
-    try {
-        const doc = new PostModel({
-            title: req.body.title,
-            text: req.body.text,
-            imageUrl: req.body.imageUrl,
-            tags: req.body.tags.split(','),
-            user: req.userId,
-        });
-
-        const post = await doc.save();
-
-        res.json(post);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            message: 'Не удалось создать статью',
-        });
-    }
-};
-
 export const remove = async (req, res) => {
     try {
         const postId = req.params.id;
@@ -119,6 +101,27 @@ export const remove = async (req, res) => {
         console.log(err);
         res.status(500).json({
             message: 'Не удалось получить статью',
+        });
+    }
+};
+
+export const create = async (req, res) => {
+    try {
+        const doc = new PostModel({
+            title: req.body.title,
+            text: req.body.text,
+            imageUrl: req.body.imageUrl,
+            tags: req.body.tags,
+            user: req.userId,
+        });
+
+        const post = await doc.save();
+
+        res.json(post);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Не удалось создать статью',
         });
     }
 };

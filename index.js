@@ -18,7 +18,7 @@ import { UserController, PostController } from './controllers/index.js';
 
 mongoose
     .connect(process.env.DATA_BASE)
-    .then(() => console.log('DB work'))
+    .then(() => console.log('db_work'))
     .catch((err) => console.log('DB error', err));
 
 const app = express();
@@ -74,5 +74,5 @@ app.listen(process.env.PORT, (err) => {
         return console.log(err);
     }
 
-    console.log('This server has been started on port 4444');
+    console.log('Server worked');
 });
